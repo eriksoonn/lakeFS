@@ -15,9 +15,10 @@ def fresh_client():
     return client
 
 def test_health(fresh_client):
-    resp = fresh_client.get("/_health")
-    assert resp.status_code == 200
-    assert resp.json() == {"status": "ok"}
+    for path in ["/_health", "/health"]:
+        resp = fresh_client.get(path)
+        assert resp.status_code == 200
+        assert resp.json() == {"status": "ok"}
 
 
 def test_user_lifecycle(fresh_client):

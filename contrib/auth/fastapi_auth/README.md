@@ -14,6 +14,14 @@ docker build -t lakefs-fastapi-auth .
 docker run -p 8000:8000 lakefs-fastapi-auth
 ```
 
+Once running, you can check the server health using:
+
+```bash
+curl http://localhost:8000/health
+```
+
+which returns `{"status": "ok"}` on success.
+
 The server exposes the same basic endpoints as the Go example implementation found under `contrib/auth/acl`.
 
 ## Testing

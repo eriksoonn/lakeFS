@@ -533,6 +533,7 @@ def delete_policy(policy_id: str):
 
 
 @app.get("/_health")
+@app.get("/health")
 def health():
     return {"status": "ok"}
 
