@@ -15,3 +15,11 @@ docker run -p 8000:8000 lakefs-fastapi-auth
 ```
 
 The server exposes the same basic endpoints as the Go example implementation found under `contrib/auth/acl`.
+
+## Testing
+
+Run unit tests using `pytest`:
+
+```bash
+pytest tests
+```

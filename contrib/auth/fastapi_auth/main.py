@@ -227,7 +227,7 @@ def attach_policy_to_user(user_id: str, policy_id: str):
     policies = getattr(USERS[user_id], "policies", [])
     if policy_id not in policies:
         policies.append(policy_id)
-    USERS[user_id].policies = policies
+    USERS[user_id].__dict__["policies"] = policies
     return None
 
 
@@ -238,7 +238,7 @@ def detach_policy_from_user(user_id: str, policy_id: str):
     policies = getattr(USERS[user_id], "policies", [])
     if policy_id in policies:
         policies.remove(policy_id)
-    USERS[user_id].policies = policies
+    USERS[user_id].__dict__["policies"] = policies
     return None
 
 
@@ -395,11 +395,11 @@ def delete_group(group_id: str):
     if group_id not in GROUPS:
         raise HTTPException(status_code=404, detail="not found")
     GROUPS.pop(group_id)
+    # remove membership from users if stored
     for user in USERS.values():
-        memberships = getattr(user, "groups", [])
-        if group_id in memberships:
+        memberships = getattr(user, "groups", None)
+        if memberships and group_id in memberships:
             memberships.remove(group_id)
-        user.groups = memberships
     return None
 
 
@@ -528,7 +528,7 @@ def delete_policy(policy_id: str):
         policies = getattr(u, "policies", [])
         if policy_id in policies:
             policies.remove(policy_id)
-        u.policies = policies
+        u.__dict__["policies"] = policies
     return None
 
 
