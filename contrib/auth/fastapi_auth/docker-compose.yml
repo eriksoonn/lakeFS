@@ -1,0 +1,19 @@
+version: '3'
+services:
+  auth:
+    build: .
+    environment:
+      - FASTAPI_AUTH_STORAGE=${FASTAPI_AUTH_STORAGE:-memory}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://auth:auth@db/auth}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: auth
+      POSTGRES_PASSWORD: auth
+      POSTGRES_DB: auth
+    ports:
+      - "5432:5432"
